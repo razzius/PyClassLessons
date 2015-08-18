@@ -4,6 +4,8 @@
 
 
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/news.css') }}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
 
 
 {# <!--all elements reside in one center tag, then in one table tag--> #}
@@ -109,40 +111,27 @@
         <td class="subtext"> 4 minutes ago </td>
       </tr>
     </table>
+      <button class="btn btn-lg btn-primary btn-block" type="button" role="form">Register </button>
 
 
+<script>
+$(function() {
+    $('button').click(function() {
+        var upvote = $('#upvoter').val();
+        $.ajax({ 
+            url: '/ok', 
+            data: 1,
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+               console.log(error)
+            }
+         });
+     });
+});
 
-
-        {# <td></td>
-        <td class="title">
-          <span class="deadmark"></span><a href="https://zerocater.com/jobs/" rel="nofollow">ZeroCater Is Hiring a VP of Engineering and a Head of Product</a>
-          <span class="sitebit comhead"> (zerocater.com)</span>
-        </td>
-      </tr>
-      <tr>
-        <td colspan="2"></td>
-        <td class="subtext">
-          6 hours ago              
-        </td>
-      </tr>
-      <div class="votearrow" title="upvote"></div>
-      </a></center></td><td class="title"><span class="deadmark"></span><a href="http://github.com/yudai/gotty">Gotty – Share your terminal as a web application</a><span class="sitebit comhead"> (github.com)</span></td></tr><tr><td colspan="2"></td><td class="subtext">
-        <span class="score" id="score_10075313">292 points</span> by <a href="user?id=nimitkalra"><font color="#3c963c">nimitkalra</font></a> <a href="item?id=10075313">8 hours ago</a>                  | <a href="item?id=10075313">41 comments</a>                              </td></tr>
-    #}
-    {# not formatted: see if browser changes and formats #}
-    {# </td></tr> #}
-    
-
-{# <tr>
-all_posts query: {{ all_posts }}
-  {% for post in all_posts %}
-    <ul>  
-      <li> title: {{ post.title }} </li>
-      <li> (domain: {{ post.domain }}) </li>
-      <li> points: {{ post.points }} </li>
-      <li> submitted by: {{ post.username }} </li>
-    </ul>
-  {% endfor %}
-</tr> #}
+</script>
 
 {% endblock %}

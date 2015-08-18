@@ -1,28 +1,56 @@
 {% extends "hack_news_base.html" %}
 
-
 {% block customhello %}
-    <footer> 
-    {% if current_user.is_authenticated() %}
-    Hi {{ current_user.username }}!
-    {% endif %}
-    </footer>
+     
+    
+
 {% endblock %}
 
 
-{% block content %}
+  {% block content %}
+
+    {% if current_user.is_authenticated() %}
+      Hi {{ current_user.username }}!
+    {% else %}
+      You are not logged in <a href="{{ url_for('signup') }}">signup</a>
+    {% endif %}
+
+  {% for user in all_users %}
+    <ul>  
+      <li> user id: {{ user.id }} </li>
+      <li> username: {{ user.username }} </li>
+      <li> date created: {{ user.date_created }} </li>
+      <li> email: {{ user.email }} </li>
+    </ul>
+  {% endfor %}
 
 
-{% for user in all_users %}
-  <ul>  
-    <li> user id: {{ user.id }} </li>
-    <li> username: {{ user.username }} </li>
-    <li> date created: {{ user.date_created }} </li>
-    <li> email: {{ user.email }} </li>
-  </ul>
-{% endfor %}
 
-{# <div> hello custom user this is live code we are reloading</div> #}
+<form class="form-signin" action="/hi" method="post" role="form">
+  <h2 class="form-signin-heading">Please Sign Up </h2>
+  <input type="email" name="username" class="form-control" placeholder="Email address" required autofocus>
+  <input type="password" name="password" class="form-control" placeholder="Password" required>
+  <button class="btn btn-lg btn-primary btn-block" type="button">Register </button>
+</form>
 
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script>
+$(function() {
+    $('button').click(function() {
+        var user = $('#txtUsername').val();
+        var pass = $('#txtPassword').val();
+        $.ajax({
+            url: '/signup_user',
+            data: $('form').serialize(),
+            type: 'POST',
+            success: function(response) {
+                console.log(response);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
+    });
+});
+</script>
 {% endblock %}

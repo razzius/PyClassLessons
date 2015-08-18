@@ -1,4 +1,4 @@
-from flask import render_template, request, redirect, url_for, session, flash
+from flask import render_template, request, redirect, url_for, session, flash, json
 from flask.ext.login import LoginManager, login_user, login_required
 from sqlalchemy import desc 
 
@@ -92,6 +92,19 @@ def signup():
 def hello_again():
     all_users = User.query.all()
     return render_template("custom_hello.html", all_users=all_users)
+
+@app.route('/signup_user', methods=["GET", "POST"])
+def sign_up_user():
+    user =  request.form['username']
+    password = request.form['password']
+    print user, password
+    return json.dumps({'status':'OK','user':user,'pass':password})
+
+@app.route('/ok', methods=["GET", "POST"])
+def upvote():
+    vote = request.form['upvote']
+    print "request.form", request.form
+    return json.dumps({'status':'OK', 'vote':vote})
 
 
 if __name__ == '__main__':
