@@ -4,7 +4,6 @@
 
 
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/news.css') }}"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 
 
@@ -60,8 +59,8 @@
             <td>
               <center>
               {# votes #}
-              <a id="up_10073578" onclick="return vote(this)" href="vote?for=10073578&amp;dir=up&amp;auth=babec96bc637f079d63957f06ce965ecd0a32907&amp;goto=news">
-                <div class="votearrow" title="upvote"></div>
+              <a  >
+                <div class="votearrow" title="upvote" id="{{ post.id }}">X</div>
               </a>
               </center>
             </td>
@@ -113,30 +112,73 @@
     </table>
       <button class="btn btn-lg btn-primary btn-block" type="button" role="form">Register </button>
 
-
+<script type="text/javascript">
+      var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+</script>
+{#
 <script>
 $(function() {
-    $('button').click(function() {
-        var upvote = $('#upvoter').val();
-        $.ajax({ 
-            url: '/ok', 
-            data: 1,
-            type: 'POST',
-            success: function(response) {
-                console.log(response);
-            },
-            error: function(error) {
-               console.log(error)
-            }
-         });
-     });
-});
+
+    $('div.votearrow').click( function() {
+
+        
+        $.getJSON('/server_add' { 
+            // url: '/ok', 
+            idis: $(this).attr('id');,
+            z: 1
+         }); 
+       }); 
+    });
+
+    // , function(data) {
+    //      console.log(data);
+    //     
+    // });
+// var upvote_id = $(this).attr('id');
+
+        // console.log('here we go again');
+
+           // dataType:'json',
+           //  upvote_id: upvote_id,
+            
+           //  type: 'POST',
+           //  success: function(response) {
+           //      console.log(response);
+           //  },
+           //  error: function(error) {
+           //     console.log(error)
+           //  }
+         
+     
+
+
+</script>
+#}
+<script>
+ $(function() {
+     $('div.votearrow').click(function() {
+         var upvote_id = $(this).attr('id');
+ console.log(upvote_id)
+         $.ajax({ 
+             url: '/ok', 
+             data: upvote_id,
+             
+             // upvote_id: upvote_id,
+             // z: 1,
+             type: 'POST',
+             success: function(response) {
+                 console.log(response);
+             },
+             error: function(error) {
+                console.log(error)
+             }
+          });
+      });
+ });
 
 </script>
 
-<script type="text/javascript">
-      var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-    </script>
+
 
     <script type=text/javascript>
        $(function() {
@@ -161,8 +203,30 @@ $(function() {
     });
     </script>
 
+{# HN plain js script #}
+    
+    {# <a id="up_10073578" onclick="return vote(this)" href="vote?for=10073578&amp;dir=up&amp;auth=babec96bc637f079d63957f06ce965ecd0a32907&amp;goto=news">
+      <div class="votearrow" title="upvote"></div>
+    </a> #}
+    <script>
 
-    {# experimentation #}
+    function hide(id) {
+      var el = document.getElementById(id);
+      if (el) { el.style.visibility = 'hidden'; }
+    }
+    function vote(node) {
+      var v = node.id.split(/_/);
+      var item = v[1];
+      hide('up_'   + item);
+      hide('down_' + item);
+      var ping = new Image();
+      ping.src = node.href;
+      return false;
+      }
+    </script>
+{# end HN plain JS #}
+
+    {# experimentation 
     <script type=text/javascript>
     $(function() {
     $('a#doit').bind('click', function() {
@@ -170,7 +234,7 @@ $(function() {
         d: 1,
        }
 
-     </script>
+     </script> #}
      //   $(function() {
      //     $('#hello').click(function() {
      //         var j_jonah = 23;
