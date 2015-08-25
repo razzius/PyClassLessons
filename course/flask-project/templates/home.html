@@ -162,11 +162,9 @@ $(function() {
          $.ajax({ 
              url: '/ok', 
              data: upvote_id,
-             
-             // upvote_id: upvote_id,
-             // z: 1,
+             // upvote_id: upvote_id,    this goes in data: json value
              type: 'POST',
-             success: function(response) {
+             success: function(response) { //possible to redirect from here? 
                  console.log(response);
              },
              error: function(error) {
@@ -175,7 +173,6 @@ $(function() {
           });
       });
  });
-
 </script>
 
 

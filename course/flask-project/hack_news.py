@@ -86,13 +86,14 @@ def signup():
     return render_template("signup.html", signup_form=signup_form, error=error)
 
 
-#displays users to be deleted in final project
+#displays users: to be deleted in final project
 @app.route("/hi", methods=["GET", "POST"])
 @login_required
 def hello_again():
     all_users = User.query.all()
     return render_template("custom_hello.html", all_users=all_users)
 
+#ajax test route with arbitrary flask docs example in custom_hello.html line 36
 @app.route('/signup_user', methods=["GET", "POST"])
 def sign_up_user():
     user =  request.form['username']
