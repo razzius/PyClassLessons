@@ -84,85 +84,20 @@
        {# note if links are visited they will be grey according to our news.css file
        a:visited { color:#828282; text-decoration:none; } #}
 
-
-      <tr style="height:20px"></tr>
-      <tr class='athing'>
-        <td align="right" valign="top" class="title">
-          <span class="rank">3.</span>
-        </td>      
-        <td>
-          <center>
-          {# votes #}
-          <a id="up_10073578" onclick="return vote(this)" href="vote?for=10073578&amp;dir=up&amp;auth=babec96bc637f079d63957f06ce965ecd0a32907&amp;goto=news">
-            <div class="votearrow" title="upvote"></div>
-          </a>
-          </center>
-        </td>
-        <td class="title">
-          <span class="deadmark"></span>
-            <a href="https://www.scienceexchange.com/jobs?gh_jid=89107" rel="nofollow">Science Exchange (YC S11) Is Hiring a Junior BI Engineer</a>
-          <span class="sitebit comhead"> (scienceexchange.com)</span>
-        </td>
-      </tr>
-
-      <tr>
-        <td colspan="2"></td>
-        <td class="subtext"> 4 minutes ago </td>
-      </tr>
-    </table>
-      <button class="btn btn-lg btn-primary btn-block" type="button" role="form">Register </button>
-
 <script type="text/javascript">
       var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 </script>
-{#
-<script>
-$(function() {
 
-    $('div.votearrow').click( function() {
-
-        
-        $.getJSON('/server_add' { 
-            // url: '/ok', 
-            idis: $(this).attr('id');,
-            z: 1
-         }); 
-       }); 
-    });
-
-    // , function(data) {
-    //      console.log(data);
-    //     
-    // });
-// var upvote_id = $(this).attr('id');
-
-        // console.log('here we go again');
-
-           // dataType:'json',
-           //  upvote_id: upvote_id,
-            
-           //  type: 'POST',
-           //  success: function(response) {
-           //      console.log(response);
-           //  },
-           //  error: function(error) {
-           //     console.log(error)
-           //  }
-         
-     
-
-
-</script>
-#}
 <script>
  $(function() {
      $('div.votearrow').click(function() {
          var upvote_id = $(this).attr('id');
- console.log(upvote_id)
+         console.log(upvote_id)
+
          $.ajax({ 
-             url: '/ok', 
-             data: upvote_id,
-             // upvote_id: upvote_id,    this goes in data: json value
+             url: '/receive_votes', 
+             data: {'upvote_id': upvote_id},
+             // upvote_id: upvote_id, this goes in json data: as {json : value}
              type: 'POST',
              success: function(response) { //possible to redirect from here? 
                  console.log(response);
@@ -175,109 +110,5 @@ $(function() {
  });
 </script>
 
-
-
-    <script type=text/javascript>
-       $(function() {
-         var submit_form = function(e) {
-       $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-         a: $('input[name="a"]').val(),
-         b: $('input[name="b"]').val(),
-         c: 1
-       }, function(data) {
-         $('#result').text(data.result);
-         $('input[name=a]').focus().select();
-      });
-      return false;
-      };
-      $('a#calculate').bind('click', submit_form);
-      $('input[type=text]').bind('keydown', function(e) {
-        if (e.keyCode == 13) {
-          submit_form(e);
-        }
-      });
-      $('input[name=a]').focus();
-    });
-    </script>
-
-{# HN plain js script #}
-    
-    {# <a id="up_10073578" onclick="return vote(this)" href="vote?for=10073578&amp;dir=up&amp;auth=babec96bc637f079d63957f06ce965ecd0a32907&amp;goto=news">
-      <div class="votearrow" title="upvote"></div>
-    </a> #}
-    <script>
-
-    function hide(id) {
-      var el = document.getElementById(id);
-      if (el) { el.style.visibility = 'hidden'; }
-    }
-    function vote(node) {
-      var v = node.id.split(/_/);
-      var item = v[1];
-      hide('up_'   + item);
-      hide('down_' + item);
-      var ping = new Image();
-      ping.src = node.href;
-      return false;
-      }
-    </script>
-{# end HN plain JS #}
-
-    {# experimentation 
-    <script type=text/javascript>
-    $(function() {
-    $('a#doit').bind('click', function() {
-      $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
-        d: 1,
-       }
-
-     </script> #}
-     //   $(function() {
-     //     $('#hello').click(function() {
-     //         var j_jonah = 23;
-     //         $.ajax({
-     //             url: '/_add_numbers',
-     //             data: {'ex5': 5, 'c': 2},
-     //             type: 'POST',
-     //             success: function(response) {
-     //                 console.log(response);
-     //             },
-     //             error: function(error) {
-     //                 console.log(error);
-     //             }
-     //         });
-     //     });
-     // });
-     
-
-    <script type=text/javascript>
-       $(function() {
-         $('#e').click(function() {
-             var upvote_number = 14;
-             $.getJSON({$SCRIPT_ROOT + '/_add_numbers', {
-                 e: 55,
-                 num: upvote_number,
-                 success: function(response) {
-                     console.log(response);
-                 },
-                 error: function(error) {
-                     console.log(error);
-                 }
-             });
-         });
-     });
-     </script>
-
-<h1>jQuery Example</h1>
-<p>
-  <input type="text" size="5" name="a"> +
-  <input type="text" size="5" name="b"> =
-  <span id="result">?</span>
-<p><a href=# id="calculate">calculate server side</a>
-
-  <a href=# id="c"> ˆ upvoteit dummy</a> 
-
-  <span id="noid">haha its a span</span>
-  <a href=# id="e"> ˆ up vote it tho </a>
 
 {% endblock %}
